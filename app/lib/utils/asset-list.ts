@@ -38,8 +38,15 @@ export function groupAssetsByType(assets: IAsset[]) {
   return Array.from(groups.entries());
 }
 
+function getRawAssetCostForDate(asset: IAsset, date: string) {
+  const historyItems = asset.history.filter(item => new Date(item.date) <= new Date(date))
+  const cost = historyItems.at(-1)?.cost;
+
+  return cost ?? 0;
+}
+
 export function getAssetCostForDate(asset: IAsset, date: string) {
-  const cost = asset.history.find(item => item.date === date)?.cost;
+  const cost = getRawAssetCostForDate(asset, date)
 
   return cost ? formatter.format(cost) : 0;
 }
@@ -48,11 +55,7 @@ export function getTotalCostForDate(assets: IAsset[], date: string) {
   let total = 0;
 
   assets.forEach(asset => {
-    const cost = asset.history.find(item => item.date === date)?.cost;
-
-    if (cost) {
-      total += cost;
-    }
+    total += getRawAssetCostForDate(asset, date);
   });
   
   return formatter.format(total);

@@ -13,7 +13,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, TNumberInputProps>
   const [rawValue, setRawValue] = useState('');
   
   useEffect(() => {
-    const newRawValue = value ? formatter.format(value) : '';
+    const newRawValue = (value || value === 0) ? formatter.format(value) : '';
 
     if (rawValue !== newRawValue) {
       setRawValue(newRawValue);

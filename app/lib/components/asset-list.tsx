@@ -1,6 +1,5 @@
 import { Fragment } from "react";
 
-import { TrashIcon } from '@heroicons/react/24/solid'
 import {
   Table,
   TableBody,
@@ -13,8 +12,9 @@ import {
 } from "@/app/lib/components/shadcn/ui/table"
 import { getAssetCostForDate, getDateHeaders, getTotalCostForDate, groupAssetsByType } from "@/app/lib/utils/asset-list";
 import { ASSET_TYPE_TEXT_MAP } from "@/app/lib/constants/asset-types";
-import { IAsset } from "../types/assets";
-import { DeleteAsset } from "./delete-asset";
+import { IAsset } from "@/app/lib/types/assets";
+import { DeleteAsset } from "@/app/lib/components/delete-asset";
+import { UpdateAsset } from "@/app/lib/components/update-asset";
 
 interface IAssetListProps {
   assets: IAsset[];
@@ -30,7 +30,7 @@ export const AssetList: React.FC<IAssetListProps> = ({ assets, onAssetsChanged }
       <TableCaption className="caption-top">Ваши активы</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[40px]" />
+          <TableHead className="w-[60px]" />
           <TableHead className="max-w-[250px]" />
           {dates.map(date => <TableHead key={date} className="text-right w-[120px]">{date}</TableHead>)}
         </TableRow>
@@ -40,7 +40,7 @@ export const AssetList: React.FC<IAssetListProps> = ({ assets, onAssetsChanged }
           return (
             <Fragment key={type}>
               <TableRow key={type}>
-                <TableCell className="w-[40px]" />
+                <TableCell className="w-[60px]" />
                 <TableCell className="font-bold max-w-[250px]">{ASSET_TYPE_TEXT_MAP[type]}</TableCell>
                 {dates.map(date => <TableCell className="w-[120px]" key={date} />)}
               </TableRow>
@@ -48,7 +48,8 @@ export const AssetList: React.FC<IAssetListProps> = ({ assets, onAssetsChanged }
               {assets.map((asset, index) => {
                 return (
                   <TableRow key={index}>
-                    <TableCell className="w-[40px]">
+                    <TableCell className="w-[60px] flex gap-1">
+                      <UpdateAsset asset={asset} onAssetUpdated={onAssetsChanged} />
                       <DeleteAsset asset={asset} onAssetDeleted={onAssetsChanged} />
                     </TableCell>
                     <TableCell className="max-w-[250px]">{asset.name}</TableCell>
@@ -64,7 +65,7 @@ export const AssetList: React.FC<IAssetListProps> = ({ assets, onAssetsChanged }
       </TableBody>
       <TableFooter>
         <TableRow>
-          <TableCell className="w-[40px]" />
+          <TableCell className="w-[60px]" />
           <TableCell className="font-bold max-w-[250px]">Итого</TableCell>
           {dates.map(date => {
             return <TableCell key={date} className="font-bold text-right w-[120px]">{getTotalCostForDate(assets, date)}</TableCell>;

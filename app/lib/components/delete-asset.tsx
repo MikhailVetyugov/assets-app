@@ -82,8 +82,6 @@ export const DeleteAsset: React.FC<IDeleteAssetProps> = ({ asset, onAssetDeleted
     }
   }, [form, toast, onAssetDeleted]);
 
-  console.log(form)
-
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <TrashIcon className="w-5 cursor-pointer text-slate-400 hover:text-slate-600" onClick={openDialog} />

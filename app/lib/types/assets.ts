@@ -1,4 +1,4 @@
-import { TCreationReason, TDeletionReason } from "./reasons";
+import { TCreationReason, TUpdateReason, TDeletionReason } from "./reasons";
 
 export interface IAssetData {
   assets: IAsset[];
@@ -10,7 +10,7 @@ export interface IAsset {
   history: Array<{
     date: string;
     cost: number;
-    reason: TCreationReason | TDeletionReason;
+    reason: TCreationReason | TUpdateReason | TDeletionReason;
   }>
 }
 

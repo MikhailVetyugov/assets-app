@@ -2,7 +2,7 @@ import { z, ZodNumber } from 'zod';
 
 export const zodEmptyNumber = (zodPipe: ZodNumber, message: string) => {
   return (
-    z.string({
+    z.any({
       message,
     })
     .refine(value => value !== '' && !isNaN(Number(value)), {

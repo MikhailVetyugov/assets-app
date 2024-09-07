@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { AssetList } from "@/app/lib/components/asset-list";
 import { assetsDataExists, getAssets } from "@/app/lib/services/assets";
 import { CreateAsset } from "@/app/lib/components/create-asset";
-import { IAsset } from "../lib/types/assets";
+import { IAsset } from "@/app/lib/types/assets";
 
 export default function AssetsPage() {
   const router = useRouter();

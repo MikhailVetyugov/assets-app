@@ -6,11 +6,13 @@
       "history": [
         {
           "cost": 623000,
-          "date": "06.09.2024"
+          "date": "06.09.2024",
+          "reason": "created"
         },
         {
           "cost": 723000,
-          "date": "07.09.2024"
+          "date": "07.09.2024",
+          "reason": "changed"
         }
       ]
     },
@@ -20,11 +22,13 @@
       "history": [
         {
           "cost": 400000,
-          "date": "06.09.2024"
+          "date": "06.09.2024",
+          "reason": "created"
         },
         {
           "cost": 200000,
-          "date": "07.09.2024"
+          "date": "07.09.2024",
+          "reason": "changed"
         }
       ]
     },
@@ -34,7 +38,8 @@
       "history": [
         {
           "cost": 900000,
-          "date": "07.09.2024"
+          "date": "07.09.2024",
+          "reason": "created"
         }
       ]
     },
@@ -44,7 +49,8 @@
       "history": [
         {
           "cost": 1900000,
-          "date": "07.09.2024"
+          "date": "07.09.2024",
+          "reason": "created"
         }
       ]
     },
@@ -54,7 +60,8 @@
       "history": [
         {
           "cost": 2000000,
-          "date": "07.09.2024"
+          "date": "07.09.2024",
+          "reason": "created"
         }
       ]
     }
