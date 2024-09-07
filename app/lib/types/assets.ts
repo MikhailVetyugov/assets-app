@@ -5,8 +5,10 @@ export interface IAssetData {
 export interface IAsset {
   name: string;
   type: TAssetType;
-  cost: number;
-  date: string;
+  history: Array<{
+    date: string;
+    cost: number;
+  }>
 }
 
 export type TAssetType =

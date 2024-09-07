@@ -31,7 +31,8 @@ import {
 import { NumberInput } from "@/app/lib/components/number-input";
 import { ASSET_TYPE_VALUES, ASSET_TYPES } from "@/app/lib/constants/asset-types";
 import { saveAsset } from "@/app/lib/services/assets";
-import { TAssetType } from "@/app/lib/types/assets";
+import { AssetAlreadyExistsError } from "@/app/lib/utils/errors/alreadyExists";
+import { zodEmptyNumber } from "@/app/lib/utils/zodEmptyNumber";
 
 const formSchema = z.object({
   name: z.string().min(3, {
@@ -40,10 +41,10 @@ const formSchema = z.object({
   type: z.enum(ASSET_TYPE_VALUES as [string, ...string[]], {
     message: "Выберите вид актива",
   }),
-  cost: z.coerce.number({
-    message: "Укажите стоимость актива",
-  }),
+  cost: zodEmptyNumber(z.number(), "Укажите стоимость актива"),
 });
+
+export type TCreateAssetFormSchema = z.infer<typeof formSchema>;
 
 interface ICreateAssetProps {
   onAssetCreated: () => void;
@@ -52,92 +53,109 @@ interface ICreateAssetProps {
 export const CreateAsset: React.FC<ICreateAssetProps> = ({ onAssetCreated }) => {
   const [open, setOpen] = useState(false);
 
-  const toggleDialogVisibility = useCallback((open: boolean) => setOpen(open), [])
-  const openDialog = useCallback(() => setOpen(true), [])
-
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<TCreateAssetFormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      type: "",
     },
   });
 
-  const handleSubmit = useCallback((form: z.infer<typeof formSchema>) => {
-    saveAsset({
-      ...form,
-      type: form.type as TAssetType,
-    });
+  const openDialog = useCallback(() => setOpen(true), []);
 
-    setOpen(false);
-    onAssetCreated();
-  }, [onAssetCreated]);
+  const handleOpenChange = useCallback((open: boolean) => {
+    setOpen(open);
+
+    if (!open) {
+      form.reset();
+    }
+  }, [form]);
+
+  const handleSubmit = useCallback((formValues: TCreateAssetFormSchema) => {
+    try {
+      saveAsset(formValues);
+      setOpen(false);
+      onAssetCreated();
+    } catch (error) {
+      if (error instanceof AssetAlreadyExistsError) {
+        form.setError('root', { message: error.message });
+      } else {
+        form.setError('root', { message: 'Неизвестная ошибка' });
+      }
+    }
+  }, [form, onAssetCreated]);
 
   return (
-    <Dialog open={open} onOpenChange={toggleDialogVisibility}>
-      <Button size="lg" onClick={openDialog}>Создать активы</Button>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      <Button size="lg" onClick={openDialog}>Добавить актив</Button>
       <DialogContent className="sm:max-w-[425px]">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="grid gap-4 py-4">
+          <form onSubmit={form.handleSubmit(handleSubmit)}>
             <DialogHeader>
-              <DialogTitle>Создать актив</DialogTitle>
+              <DialogTitle>Добавить актив</DialogTitle>
             </DialogHeader>
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
-                  <FormLabel htmlFor="name" className="text-right">Название актива</FormLabel>
-                  <FormControl>
-                    <Input id="name" placeholder="Microsoft" className="col-span-3" {...field} />
-                  </FormControl>
-                  <FormMessage className="col-start-2 col-span-3" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="type"
-              render={({ field }) => (
-                <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
-                  <FormLabel className="text-right">Вид актива</FormLabel>
-                  <FormControl>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <SelectTrigger className="col-span-3">
-                        <SelectValue placeholder="Выберите вид актива" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          {ASSET_TYPES.map(({value, name }) => <SelectItem key={value} value={value}>{name}</SelectItem>)}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage className="col-start-2 col-span-3" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="cost"
-              render={({ field }) => (
-                <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
-                  <FormLabel htmlFor="cost" className="text-right">Стоимость</FormLabel>
-                  <FormControl>
-                    <NumberInput
-                      id="cost"
-                      placeholder="50 000"
-                      className="col-span-3"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage className="col-span-4 col-start-2 col-span-3" />
-                </FormItem>
-              )}
-            />
+            <div className="grid gap-4 py-8">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
+                    <FormLabel htmlFor="name" className="text-right">Название актива</FormLabel>
+                    <FormControl>
+                      <Input id="name" placeholder="Microsoft" className="col-span-3" {...field} />
+                    </FormControl>
+                    <FormMessage className="col-start-2 col-span-3" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="type"
+                render={({ field }) => (
+                  <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
+                    <FormLabel className="text-right">Вид актива</FormLabel>
+                    <FormControl>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <SelectTrigger className="col-span-3">
+                          <SelectValue placeholder="Выберите вид актива" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            {ASSET_TYPES.map(({value, name }) => <SelectItem key={value} value={value}>{name}</SelectItem>)}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage className="col-start-2 col-span-3" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="cost"
+                render={({ field }) => (
+                  <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
+                    <FormLabel htmlFor="cost" className="text-right">Стоимость</FormLabel>
+                    <FormControl>
+                      <NumberInput
+                        id="cost"
+                        placeholder="50 000"
+                        className="col-span-3"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="col-start-2 col-span-3" />
+                  </FormItem>
+                )}
+              />
+            </div>
             <DialogFooter>
               <Button type="submit">Сохранить</Button>
             </DialogFooter>
+            {form.formState.errors.root && (
+              <FormMessage className="col-span-4 text-right mt-4">
+                {form.formState.errors.root.message}
+              </FormMessage>
+            )}
           </form>
         </Form>
       </DialogContent>

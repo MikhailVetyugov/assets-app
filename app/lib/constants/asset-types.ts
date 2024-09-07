@@ -12,3 +12,10 @@ export const ASSET_TYPES: Array<{ value: TAssetType, name: string }> = [
 ];
 
 export const ASSET_TYPE_VALUES = ASSET_TYPES.map(item => item.value);
+
+export const ASSET_TYPE_TEXT_MAP = ASSET_TYPES.reduce((acc, assetType) => {
+  return {
+    ...acc,
+    [assetType.value]: assetType.name,
+  };
+}, {} as Record<TAssetType, string>);
