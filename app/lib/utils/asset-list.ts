@@ -41,7 +41,7 @@ export function groupAssetsByType(assets: IAsset[]) {
 export function getAssetCostForDate(asset: IAsset, date: string) {
   const cost = asset.history.find(item => item.date === date)?.cost;
 
-  return cost ? formatter.format(cost) : '';
+  return cost ? formatter.format(cost) : 0;
 }
 
 export function getTotalCostForDate(assets: IAsset[], date: string) {

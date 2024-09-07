@@ -21,14 +21,14 @@ export default function AssetsPage() {
     }
   }, [router]);
 
-  const handleAssetsCreated = useCallback(() => {
+  const handleAssetsChanged = useCallback(() => {
     setAssets(getAssets())
   }, [router]);
 
   return (
     <main className="flex flex-col items-center gap-4 min-h-screen p-4">
-      <AssetList assets={assets} />
-      <CreateAsset onAssetCreated={handleAssetsCreated} />
+      <AssetList assets={assets} onAssetsChanged={handleAssetsChanged} />
+      <CreateAsset onAssetCreated={handleAssetsChanged} />
     </main>
   );
 }
