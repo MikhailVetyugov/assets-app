@@ -1,21 +1,24 @@
 'use client'
 
-import Image from "next/image";
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from "react";
 
-import { capitalExists } from "./lib/data";
-import { Button } from "@/components/ui/button";
+import { assetsDataExists } from "@/app/lib/services/assets";
+import { CreateAsset } from '@/app/lib/components/create-asset';
 
 export default function Home() {
-  const hasCapital = capitalExists();
+  const [hasAssets, setHasAssets] = useState(false);
 
-  const [createModalShown, setCreateModalShown] = useState(false);
+  useEffect(() => setHasAssets(assetsDataExists()), []);
+
+  const handleAssetsCreated = useCallback(() => setHasAssets(true), []);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      {hasCapital ? <button onClick={() => setCreateModalShown(true)}>Please create a capital</button> : <div>Capital Details</div>}
-      <div data-open={createModalShown}>Create Modal</div>
-      <Button>Button</Button>
+    <main className="flex min-h-screen flex-col items-center gap-4 p-24">
+      {hasAssets
+        ? <div>Capital Details</div>
+        : <div>Сначала создайте активы</div>
+      }
+       <CreateAsset onAssetCreated={handleAssetsCreated} />
     </main>
   );
 }
