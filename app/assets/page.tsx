@@ -7,6 +7,7 @@ import { AssetList } from "@/app/lib/components/asset-list";
 import { assetsDataExists, getAssets } from "@/app/lib/services/assets";
 import { CreateAsset } from "@/app/lib/components/create-asset";
 import { IAsset } from "@/app/lib/types/assets";
+import { AssetAllocation } from "../lib/components/asset-allocation";
 
 export default function AssetsPage() {
   const router = useRouter();
@@ -29,6 +30,7 @@ export default function AssetsPage() {
     <main className="flex flex-col items-center gap-4 min-h-screen p-4">
       <AssetList assets={assets} onAssetsChanged={handleAssetsChanged} />
       <CreateAsset onAssetCreated={handleAssetsChanged} />
+      <AssetAllocation className="self-start" assets={assets} />
     </main>
   );
 }

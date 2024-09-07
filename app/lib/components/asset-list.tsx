@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useMemo } from "react";
 
 import {
   Table,
@@ -22,8 +22,8 @@ interface IAssetListProps {
 }
  
 export const AssetList: React.FC<IAssetListProps> = ({ assets, onAssetsChanged }) => {
-  const dates = getDateHeaders(assets);
-  const groups = groupAssetsByType(assets);
+  const dates = useMemo(() => getDateHeaders(assets), [assets]);
+  const groups = useMemo(() => groupAssetsByType(assets), [assets]);
 
   return (
     <Table className="table-fixed">

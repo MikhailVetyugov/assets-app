@@ -45,6 +45,16 @@ function getRawAssetCostForDate(asset: IAsset, date: string) {
   return cost ?? 0;
 }
 
+function getRawTotalCostForDate(assets: IAsset[], date: string) {
+  let total = 0;
+
+  assets.forEach(asset => {
+    total += getRawAssetCostForDate(asset, date);
+  });
+  
+  return total;
+}
+
 export function getAssetCostForDate(asset: IAsset, date: string) {
   const cost = getRawAssetCostForDate(asset, date)
 
@@ -52,11 +62,16 @@ export function getAssetCostForDate(asset: IAsset, date: string) {
 }
 
 export function getTotalCostForDate(assets: IAsset[], date: string) {
-  let total = 0;
-
-  assets.forEach(asset => {
-    total += getRawAssetCostForDate(asset, date);
-  });
+  const total = getRawTotalCostForDate(assets, date)
   
   return formatter.format(total);
+}
+
+export function getGroupAllocation(allAssets: IAsset[], groupAssets: IAsset[]) {
+  const date = new Date().toLocaleDateString('ru');
+
+  const total = getRawTotalCostForDate(allAssets, date);
+  const groupTotal = getRawTotalCostForDate(groupAssets, date);
+
+  return `${Math.round(groupTotal / total * 100)}%`;
 }
