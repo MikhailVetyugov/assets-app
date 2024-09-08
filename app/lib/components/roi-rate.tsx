@@ -24,7 +24,7 @@ export const ROIRate: React.FC<IROIRateProps> = ({ assets, className = '' }) => 
         <div className="text-sm font-medium leading-none text-right">{toPercent(commonROI)}</div>
       </li>
       {groupsToROI.map(([type, ROI]) => (
-        <li className="flex gap-2 items-baseline justify-end">
+        <li key={type} className="flex gap-2 items-baseline justify-end">
           <div className="text-sm text-muted-foreground">Среднегодовая доходность группы {ASSET_TYPE_TEXT_MAP[type]}</div>
           <div className="text-sm font-medium leading-none text-right">{toPercent(ROI)}</div>
         </li>
