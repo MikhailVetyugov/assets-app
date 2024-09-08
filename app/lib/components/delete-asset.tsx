@@ -84,7 +84,7 @@ export const DeleteAsset: React.FC<IDeleteAssetProps> = ({ asset, onAssetDeleted
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <TrashIcon className="w-5 cursor-pointer text-slate-400 hover:text-slate-600" onClick={openDialog} />
+      <TrashIcon className="w-5 cursor-pointer text-icon hover:text-icon/80" onClick={openDialog} />
       <DialogContent className="sm:max-w-[625px]">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)}>

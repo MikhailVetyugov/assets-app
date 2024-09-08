@@ -82,7 +82,7 @@ export const UpdateAsset: React.FC<IUpdateAssetProps> = ({ asset, onAssetUpdated
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <PencilSquareIcon className="w-5 cursor-pointer text-slate-400 hover:text-slate-600" onClick={openDialog} />
+      <PencilSquareIcon className="w-5 cursor-pointer text-icon hover:text-icon/80" onClick={openDialog} />
       <DialogContent className="sm:max-w-[500px]">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)}>
