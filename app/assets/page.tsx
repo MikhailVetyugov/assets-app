@@ -7,7 +7,8 @@ import { AssetList } from "@/app/lib/components/asset-list";
 import { assetsDataExists, getAssets } from "@/app/lib/services/assets";
 import { CreateAsset } from "@/app/lib/components/create-asset";
 import { IAsset } from "@/app/lib/types/assets";
-import { AssetAllocation } from "../lib/components/asset-allocation";
+import { AssetAllocation } from "@/app/lib/components/asset-allocation";
+import { ROIRate } from "@/app/lib/components/roi-rate";
 
 export default function AssetsPage() {
   const router = useRouter();
@@ -24,12 +25,13 @@ export default function AssetsPage() {
 
   const handleAssetsChanged = useCallback(() => {
     setAssets(getAssets())
-  }, [router]);
+  }, []);
 
   return (
     <main className="flex flex-col items-center gap-4 min-h-screen p-4">
       <AssetList assets={assets} onAssetsChanged={handleAssetsChanged} />
       <CreateAsset onAssetCreated={handleAssetsChanged} />
+      <ROIRate className="self-start" assets={assets} />
       <AssetAllocation className="self-start" assets={assets} />
     </main>
   );

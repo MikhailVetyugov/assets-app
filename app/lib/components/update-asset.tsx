@@ -78,7 +78,7 @@ export const UpdateAsset: React.FC<IUpdateAssetProps> = ({ asset, onAssetUpdated
     updateAsset(asset, formValues);
     setOpen(false);
     onAssetUpdated();
-  }, [form, onAssetUpdated]);
+  }, [asset, onAssetUpdated]);
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -115,6 +115,7 @@ export const UpdateAsset: React.FC<IUpdateAssetProps> = ({ asset, onAssetUpdated
                   const newCost = form.watch('cost');
                   const reasons = getUpdateReasons(oldCost, newCost);
 
+                  // eslint-disable-next-line react-hooks/rules-of-hooks
                   useEffect(() => {
                     const hasSelectedReason = reasons.some(item => item.value === field.value);
 

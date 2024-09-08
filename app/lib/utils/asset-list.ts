@@ -1,4 +1,5 @@
 import { IAsset, TAssetType } from "@/app/lib/types/assets";
+import { fromLocaleFormat } from "./dates";
 
 const formatter = new Intl.NumberFormat("ru");
 
@@ -7,8 +8,8 @@ export function getDateHeaders(assets: IAsset[]) {
 
   assets.forEach(asset => {
     asset.history.forEach((item) => {
-      const date = new Date(item.date);
-      dateMap.set(item.date, date.getMilliseconds());
+      const date = fromLocaleFormat(item.date);
+      dateMap.set(item.date, date.getTime());
     });
   });
 
@@ -18,7 +19,7 @@ export function getDateHeaders(assets: IAsset[]) {
     const firstMs = dateMap.get(first)!;
     const secondMs = dateMap.get(second)!;
 
-    return secondMs - firstMs;
+    return firstMs - secondMs;
   });
 }
 
@@ -39,7 +40,7 @@ export function groupAssetsByType(assets: IAsset[]) {
 }
 
 function getRawAssetCostForDate(asset: IAsset, date: string) {
-  const historyItems = asset.history.filter(item => new Date(item.date) <= new Date(date))
+  const historyItems = asset.history.filter(item => fromLocaleFormat(item.date) <= fromLocaleFormat(date))
   const cost = historyItems.at(-1)?.cost;
 
   return cost ?? 0;

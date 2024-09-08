@@ -1,4 +1,4 @@
-import { Fragment, useMemo } from "react";
+import { useMemo } from "react";
 
 import { getGroupAllocation, groupAssetsByType } from "@/app/lib/utils/asset-list";
 import { ASSET_TYPE_TEXT_MAP } from "@/app/lib/constants/asset-types";

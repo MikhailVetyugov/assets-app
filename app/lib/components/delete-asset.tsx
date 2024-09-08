@@ -80,7 +80,7 @@ export const DeleteAsset: React.FC<IDeleteAssetProps> = ({ asset, onAssetDeleted
         description: "Актив обнулён, но продолжает оставаться в списке активов для расчёта доходности",
       });
     }
-  }, [form, toast, onAssetDeleted]);
+  }, [asset, toast, onAssetDeleted]);
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
