@@ -32,7 +32,7 @@ import { NumberInput } from "@/app/lib/components/number-input";
 import { ASSET_TYPE_VALUES, ASSET_TYPES } from "@/app/lib/constants/asset-types";
 import { saveAsset } from "@/app/lib/services/assets";
 import { AssetAlreadyExistsError } from "@/app/lib/utils/errors/alreadyExists";
-import { zodEmptyNumber } from "@/app/lib/utils/zodEmptyNumber";
+import { zodEmptyNumber } from "@/app/lib/utils/zod-empty-number";
 
 const formSchema = z.object({
   name: z.string().min(3, {

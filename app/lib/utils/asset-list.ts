@@ -74,5 +74,5 @@ export function getGroupAllocation(allAssets: IAsset[], groupAssets: IAsset[]) {
   const total = getRawTotalCostForDate(allAssets, date);
   const groupTotal = getRawTotalCostForDate(groupAssets, date);
 
-  return `${Math.round(groupTotal / total * 100)}%`;
+  return groupTotal / total;
 }

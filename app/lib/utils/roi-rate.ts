@@ -9,6 +9,10 @@ import { fromLocaleFormat, getDaysDiff } from "./dates";
  * - https://github.com/peliot/XIRR-and-XNPV/blob/master/financial.py
  */
 export function getROIRate(assets: IAsset[]) {
+  if (!assets.length) {
+    return 0;
+  }
+  
   return Math.pow((1 + getSumDelta(assets) / getAverageWeightedSum(assets)), 365 / getTotalDays(assets)) - 1;
 }
 

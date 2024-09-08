@@ -30,7 +30,7 @@ import {
   SelectValue,
 } from "@/app/lib/components/shadcn/ui/select"
 import { NumberInput } from "@/app/lib/components/number-input";
-import { zodEmptyNumber } from "@/app/lib/utils/zodEmptyNumber";
+import { zodEmptyNumber } from "@/app/lib/utils/zod-empty-number";
 import { IAsset } from "@/app/lib/types/assets";
 import { getLastAssetCost, getUpdateReasons } from "@/app/lib/utils/forms";
 import { UPDATE_REASON_VALUES, UPDATE_REASONS } from "../constants/reasons";
