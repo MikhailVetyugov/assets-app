@@ -7,7 +7,7 @@ export function getLastAssetCost(asset: IAsset) {
 
 export function getUpdateReasons(oldCost: number, newCost: number) {
   if (oldCost < newCost) {
-    return UPDATE_REASONS.filter(item => item.value !== 'withdrawn');
+    return UPDATE_REASONS.filter(item => item.value !== 'withdraw');
   }
 
   if (oldCost > newCost) {

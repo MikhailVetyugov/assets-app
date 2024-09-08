@@ -3,10 +3,10 @@ export type TCreationReason =
 
 export type TUpdateReason =
   | 'changed'
-  | 'withdrawn'
+  | 'withdraw'
   | 'deposit';
 
 export type TDeletionReason =
   | 'depreciated'
-  | 'withdrawn'
+  | 'withdraw'
   | 'error';

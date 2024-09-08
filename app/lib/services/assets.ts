@@ -58,7 +58,7 @@ export function deleteAsset(asset: IAsset, form: TDeleteAssetFormSchema) {
 
       break;
     }
-    case 'withdrawn':
+    case 'withdraw':
     case 'depreciated': {
       // TODO: After migrating to a real DB throw an error if we can't find an item
       const dataAsset = data.assets.find(item => item.name === asset.name && item.type === asset.type)!;
