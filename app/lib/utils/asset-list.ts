@@ -72,6 +72,11 @@ export function getGroupAllocation(allAssets: IAsset[], groupAssets: IAsset[]) {
   const date = new Date().toLocaleDateString('ru');
 
   const total = getRawTotalCostForDate(allAssets, date);
+
+  if (total === 0) {
+    return 0;
+  }
+
   const groupTotal = getRawTotalCostForDate(groupAssets, date);
 
   return groupTotal / total;
