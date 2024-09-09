@@ -18,8 +18,14 @@ export function getROIRate(assets: IAsset[]) {
   if (totalDays === 0) {
     return 0;
   }
-  
-  return Math.pow((1 + getSumDelta(assets) / getAverageWeightedSum(assets)), 365 / totalDays) - 1;
+
+  const averageWeightedSum = getAverageWeightedSum(assets);
+
+  if (averageWeightedSum === 0) {
+    return 0;
+  }
+
+  return Math.pow((1 + getSumDelta(assets) / averageWeightedSum), 365 / totalDays) - 1;
 }
 
 export function getSumDelta(assets: IAsset[]) {
