@@ -36,12 +36,12 @@ export function getSumDelta(assets: IAsset[]) {
         break;
       }
       case 'deposit': {
-        const deposit = item.cost - item.previous.cost;
+        const deposit = item.previous ? item.cost - item.previous.cost : item.cost;
         deposits += deposit;
         break;
       }
       case 'withdraw': {
-        const withdraw = item.previous.cost - item.cost;
+        const withdraw = item.previous ? item.previous.cost - item.cost : item.cost;
         withdraws += withdraw;
         break;
       }
@@ -69,13 +69,13 @@ export function getAverageWeightedSum(assets: IAsset[]) {
         break;
       }
       case 'deposit': {
-        const deposit = item.cost - item.previous.cost;
+        const deposit = item.previous ? item.cost - item.previous.cost : item.cost;;
         currentSum += deposit;
         weightedSum += days * currentSum;
         break;
       }
       case 'withdraw': {
-        const withdraw = item.previous.cost - item.cost;
+        const withdraw = item.previous ? item.previous.cost - item.cost : item.cost;
         currentSum -= withdraw;
         weightedSum += days * currentSum;
         break;
